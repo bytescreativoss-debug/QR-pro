@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Datos de pago</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(160deg, #cfe9ff 0%, #8ec5f5 100%);
+      font-family: "Segoe UI", system-ui, Arial, sans-serif; padding: 20px;
+    }
+    .card {
+      background: #fff; color: #0b3a66; border-radius: 20px; text-align: center;
+      padding: 28px 22px; width: 100%; max-width: 380px;
+      box-shadow: 0 10px 30px rgba(0, 60, 120, 0.25);
+    }
+    .icon { font-size: 2.6rem; }
+    h1 { margin: 6px 0 18px; font-size: 1.4rem; }
+    .field { text-align: left; margin-bottom: 14px; }
+    label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #5b7d9e; }
+    .val {
+      margin-top: 4px; padding: 12px 14px; background: #eef6ff; border-radius: 12px;
+      font-size: 1.15rem; font-weight: 600; word-break: break-all;
+    }
+    button {
+      width: 100%; padding: 13px; border: 0; border-radius: 12px;
+      background: #2f8fe8; color: #fff; font-size: 1rem; font-weight: 600; cursor: pointer;
+    }
+    .hint { margin-top: 14px; font-size: 0.85rem; color: #5b7d9e; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">💳</div>
+    <h1>Datos para transferir</h1>
+    <div class="field"><label>Titular</label><div class="val" id="name"></div></div>
+    <div class="field"><label>Alias</label><div class="val" id="alias"></div></div>
+    <button id="copy">Copiar alias</button>
+    <div class="hint">Copia el alias y pégalo en tu billetera para transferir.</div>
+  </div>
+
+  <script>
+    const p = new URLSearchParams(window.location.search);
+    const n = p.get("n") || "";
+    const a = p.get("a") || "";
+    document.getElementById("name").textContent = n || "-";
+    document.getElementById("alias").textContent = a || "-";
+    document.getElementById("copy").onclick = function () {
+      const b = this;
+      const done = () => { b.textContent = "¡Copiado!"; setTimeout(() => b.textContent = "Copiar alias", 2000); };
+      if (navigator.clipboard) navigator.clipboard.writeText(a).then(done).catch(done);
+      else done();
+    };
+  </script>
+</body>
+</html>
